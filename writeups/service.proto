@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package service.proto;
+option go_package = ".";
+
+service EyeSeeService {
+  rpc ServiceHealthCheck (ServiceHealthCheckRequest) returns (ServiceHealthCheckResponse);
+  rpc AddPrescription (AddPrescriptionRequest) returns (AddPrescriptionResponse);
+  rpc GetPrescriptionIDs (GetPrescriptionIDsRequest) returns (GetPrescriptionIDsResponse);
+  rpc CheckPrescription (CheckPrescriptionRequest) returns (CheckPrescriptionResponse);
+  rpc Debugger (DebuggerRequest) returns (DebuggerResponse);
+}
+
+message ServiceHealthCheckRequest {
+}
+
+message ServiceHealthCheckResponse {
+  string status = 1; // OK or NOK
+}
+
+message AddPrescriptionRequest {
+  string patient_id = 2;
+  string patient_name = 3;
+  string doctor_name = 4;
+  repeated string modifications = 5;
+  repeated string features = 6;
+  float od_spf = 7;
+  float od_cyl = 8;
+  float od_ax = 9;
+  float os_spf = 10;
+  float os_cyl = 11;
+  float os_ax = 12;
+}
+
+message GetPrescriptionIDsRequest {
+  string patient_id = 1;
+}
+
+message GetPrescriptionIDsResponse {
+  repeated string ids = 1;
+}
+
+message AddPrescriptionResponse {
+  string id = 1;
+}
+
+message CheckPrescriptionRequest {
+  string id = 1;
+}
+
+message CheckPrescriptionResponse {
+  string patient_id = 2;
+  string patient_name = 3;
+  string doctor_name = 4;
+  repeated string modifications = 5;
+  repeated string features = 6;
+  float od_spf = 7;
+  float od_cyl = 8;
+  float od_ax = 9;
+  float os_spf = 10;
+  float os_cyl = 11;
+  float os_ax = 12;
+}
+
+message DebuggerRequest {
+  string cmd = 1;
+  string pin = 2;
+}
+
+message DebuggerResponse {
+  string stdout = 1;
+  string stderr = 2;
+}

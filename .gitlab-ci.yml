@@ -1,0 +1,26 @@
+stages:
+  - build
+
+service-file-is-actual:
+  stage: build
+  image: golang:alpine
+  allow_failure: true
+  before_script:
+    - apk add --update zip
+  script:
+    - cd dev/service
+    - go mod download
+    - CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o eyesee main.go
+    - cd ../..
+    - cp dev/service/eyesee eyesee
+    - cmp eyesee service/eyesee
+  artifacts:
+    paths:
+      - eyesee
+    when: always
+  rules:
+    - changes:
+        paths:
+          - dev/service
+          - service/eyesee
+          - .gitlab-ci.yml
